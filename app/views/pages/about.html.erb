@@ -1,0 +1,15 @@
+<section id="page-header">
+
+  <div style="background-image: url('<%= @document['article.image'].get_view('main').url %>')">
+    <div>
+      <h1><%= @document['article.title'].as_text %></h1>
+
+      <%= @document['article.short_lede'].as_html_safe(link_resolver(maybe_ref)) %>
+    </div>
+  </div>
+
+</section>
+
+<section id="page-body">
+  <%= @document['article.content'].as_html_safe(link_resolver(maybe_ref)) %>
+</section>

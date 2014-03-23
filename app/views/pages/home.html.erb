@@ -1,0 +1,81 @@
+<div id="home" class="main">
+    <section id="caroussel">
+
+      <nav>
+        <ul>
+          <% @categories.values.each do |category| %>
+            <li><a><%= category %></a></li>
+          <% end %>
+        </ul>
+      </nav>
+
+      <div class="products">
+        <% @categories.keys.each do |category| %>
+            <ul>
+            <% @products.results.select{|p| !p.tags.include? category.to_s }.take(5).each do |product| %>
+                <li data-category="<%= category %>">
+                  <%= link_to show_product_path(product, slug: product.slug) do %>
+                    <img src="<%= product['product.image'].get_view('icon').url %>">
+                    <span><%= product['product.name'].as_text %></span>
+                    <em><span class="price"><%= number_to_currency(product['product.price'].value) %></span></em>
+                  <% end %>
+                </li>
+            <% end %>
+            </ul>
+        <% end %>
+      </div>
+
+      <p>
+        <%= link_to 'Browse all our products', products_path(ref: maybe_ref) %>
+      </p>
+
+    </section>
+
+    <section id="featured">
+      <% @featured.results.select{ |p| p.type != 'blog-post' }.take(3).each do |doc| %>
+
+        <% if doc.type == 'product' %>
+              <div style="background-image: url(<%= doc['product.gallery'][0].get_view('squared').url %>)">
+                <%= link_to show_product_path(doc.id, slug: doc.slug, ref: maybe_ref) do %>
+                  <h3><span><%= doc['product.name'].as_text %></span></h3>
+                  <p>
+                    <span><%= doc['product.short_lede'].as_text %></span>
+                  </p>
+                <% end %>
+              </div>
+        <% end %>
+
+        <% if doc.type == 'selection' %>
+              <div style="background-image: url(<%= doc['selection.catcher_image'].get_view('squarred').url %>)">
+                <%= link_to(link_resolver(@maybe_ref).link_to(doc)) do %>
+                  <h3><span><%= doc['selection.name'].as_text %></span></h3>
+                  <p>
+                    <span><%= doc['selection.short_lede'].as_text %></span>
+                  </p>
+                <% end %>
+              </div>
+        <% end %>
+
+      <% end %>
+
+    </section>
+
+
+    <% @featured.results.select{ |p| p.type == 'blog-post' }.take(1).each do |post| %>
+        <section id="blog">
+          <h2>Fresh news from <%= link_to "our blog", blog_path(ref: maybe_ref) %></h2>
+
+          <a href="<%= link_resolver(maybe_ref).link_to(post) %>">
+            <h1><%= post['blog-post.body'].first_title %></h1>
+            <p><%= post['blog-post.body'].blocks.select{ |b| b.is_a?(Prismic::Fragments::StructuredText::Block::Paragraph) }.first.as_text %></p>
+          </a>
+
+          <%= link_to "Read more", blog_path(ref: maybe_ref), class: "more" %>
+          <!--
+          <a class="more" href="/blog.html#posts<%#= ctx.maybeRefParam %>/<%#= post.id %>/<%#= post.slug %>">Read more</a>
+          -->
+
+        </section>
+    <% end %>
+
+</div>

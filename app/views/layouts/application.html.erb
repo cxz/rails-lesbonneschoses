@@ -1,0 +1,27 @@
+<% content_for :stylesheet do %>
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+<% end %>
+
+<% content_for :header do %>
+    <header>
+      <nav>
+        <h1><%= link_to('Les bonnes choses', home_path(ref: @maybe_ref)) %></h1>
+
+        <ul>
+          <li><%= link_to('About', about_path(ref: @maybe_ref)) %></li>
+          <li><%= link_to('Stores', stores_path(ref: @maybe_ref)) %></li>
+        </ul>
+        <ul>
+          <li><%= link_to('Jobs', jobs_path(ref: @maybe_ref)) %></li>
+          <li><%= link_to('Our Blog', blog_path(ref: @maybe_ref)) %></li>
+        </ul>
+
+        <% link_to(about_path(ref: @maybe_ref)) do %>
+            <span>Search</span>
+        <% end %>
+
+      </nav>
+    </header>
+<% end %>
+
+<%= render 'layouts/base' %>

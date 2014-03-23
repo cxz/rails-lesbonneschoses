@@ -1,0 +1,23 @@
+<div class="main">
+<section id="posts">
+
+  <% @posts.results.take(10).each do |post| %>
+
+      <article>
+        <%=  %>
+
+        <%= link_to show_post_path(post.id, slug: post.slug, ref: maybe_ref) do %>
+          <em class="infos"><%= post["blog-post.date"].value %> by <%= post["blog-post.author"].as_text %></em>
+          <h2><%= post["blog-post.body"].first_title %></h2>
+
+          <p><%= post["blog-post.body"].first_paragraph_as_text %></p>
+
+          <div style="background-image: url( <%= post["blog-post.body"].first_image.url %> ); background-size: cover"></div>
+
+          <strong>Read more</strong>
+        <% end %>
+      </article>
+  <% end %>
+
+</section>
+</div>

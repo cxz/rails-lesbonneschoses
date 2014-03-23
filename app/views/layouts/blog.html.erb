@@ -1,0 +1,25 @@
+<% content_for :stylesheet do %>
+    <%= stylesheet_link_tag    "blog", media: "all", "data-turbolinks-track" => true %>
+<% end %>
+
+<% content_for :header do %>
+<header>
+
+  <%= link_to root_path do %>
+    <h1>Les Bonnes Choses</h1>
+  <% end %>
+
+  <nav>
+    <ul>
+      <li><%= link_to 'Home', home_path %></li>
+      <% @categories.each do |category| %>
+          <li><%= link_to category, posts_path(category: category) %></li>
+      <% end %>
+    </ul>
+  </nav>
+
+</header>
+
+<% end %>
+
+<%= render 'layouts/base' %>

@@ -1,0 +1,52 @@
+<h1><%=
+  case @documents.total_results_size
+  when 0
+    "No result found"
+  when 1
+    "One document found"
+  else
+    "#{@documents.total_results_size} documents found"
+  end
+%></h1>
+
+<ul>
+  <% @documents.each do |doc| %>
+    <li>
+      <%= link_to doc.slug, link_resolver(maybe_ref).link_to(doc) %>
+      <%#
+        We could have written document_path(id: doc.id, slug: doc.slug, ref: maybe_ref);
+        but it's better to use the link_resolver, as it allows you to maintain in one place
+        the way all the documents' URLs are supposed to be written, whatever their types.
+      %>
+    </li>
+  <% end %>
+</ul>
+
+<hr>
+
+<% if @documents.total_pages > 1 %>
+  <ul>
+    <% if @documents.prev_page %><li><a href="<%= search_path(q: params[:q], ref: maybe_ref, page: @documents.page==2 ? nil : @documents.page-1, page_size: params[:page_size]) %>">previous page</a></li><% end %>
+    <% @documents.total_pages.times do |i| %>
+      <% j = i+1 %>
+      <li>
+        <% if @documents.page == j %>
+          <span><%= j %></span>
+        <% else %>
+          <a href="<%= search_path(q: params[:q], ref: maybe_ref, page: j==1 ? nil : j, page_size: params[:page_size]) %>"><%= j %></a>
+        <% end %>
+      </li>
+    <% end %>
+    <% if @documents.next_page %><li><a href="<%= search_path(q: params[:q], ref: maybe_ref, page: @documents.page+1, page_size: params[:page_size]) %>">next page</a></li><% end %>
+  </ul>
+<% end %>
+
+<hr>
+
+<p>
+  <%= link_to "Back to home", root_path(ref: maybe_ref) %>
+  <%#
+    Passing the ref parameter allows to keep it if we're previewing a future release.
+    Note: if @ref is the master ref, then @maybe_ref is nil (allowing to discard the parameter here).
+  %>
+</p>

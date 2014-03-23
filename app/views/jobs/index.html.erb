@@ -1,0 +1,48 @@
+<div id="jobs">
+  <section id="page-header">
+
+    <div style="background-image: url(<%= @document['article.image'].get_view('main').url %>)">
+      <div>
+        <h1><%= @document['article.title'].as_text %></h1>
+
+        <%= @document['article.short_lede'].as_html_safe(link_resolver(maybe_ref)) %>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="page-body">
+
+    <div class="presentation">
+      <%= @document["article.content"].as_html_safe(link_resolver(maybe_ref)) %>
+    </div>
+
+    <% services = {
+       "Store" => "Positions in our Stores",
+       "Office" => "Positions in our Offices",
+       "Workshop" => "Positions in our Workshops",
+       "undefined" => "Other positions"
+       }; %>
+
+    <% @jobs.results.group_by{|j| j['job-offer.service'].nil?? "": j['job-offer.service'].as_text }.each do |group, jobs| %>
+        <h2><%= services[group] if group %></h2>
+
+        <div class="listing">
+            <% jobs.each do |j| %>
+
+              <div class="job">
+                <%= link_to show_job_path(j.id, slug: j.slug, ref: maybe_ref) do %>
+                <h3><%= j['job-offer.name'].as_text %></h3>
+                <p>
+                  <%= j['job-offer.profile'].first_paragraph_as_text %>
+                </p>
+                <strong>Learn more</strong>
+                <% end %>
+              </div>
+            <% end %>
+        </div>
+    <% end %>
+
+
+  </section>
+</div>

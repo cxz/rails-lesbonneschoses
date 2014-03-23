@@ -1,0 +1,21 @@
+<section id="page-header">
+
+  <div style="background-image: url(<%= @document['article.image'].get_view('main').url %>)">
+    <div>
+      <h1><%= @job['job-offer.name'].as_text %></h1>
+    </div>
+  </div>
+
+</section>
+
+<section id="page-body">
+
+  <h2>About you</h2>
+
+  <%= @job["job-offer.profile"].as_html_safe(link_resolver(maybe_ref)) %>
+
+  <h2>Your responsibilities</h2>
+
+  <%= @job["job-offer.job_description"].as_html_safe(link_resolver(maybe_ref))%>
+
+</section>
