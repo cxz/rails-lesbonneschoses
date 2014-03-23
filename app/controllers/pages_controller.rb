@@ -1,10 +1,6 @@
 class PagesController < ApplicationController
   def home
-    @categories = {
-        :"Macaron" => "Macarons",
-        :"Cupcake" => "Cup Cakes",
-        :"Pie" => "Little Pies"
-    }
+    @categories = categories
     @products = api.form('products').page('1').page_size('15').submit(ref)
     @featured = api.form('featured').page('1').page_size('5').submit(ref)
   end

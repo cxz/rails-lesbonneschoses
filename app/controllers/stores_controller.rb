@@ -7,5 +7,6 @@ class StoresController < ApplicationController
 
   def show
     @store = PrismicService.get_document(params[:id], api, ref)
+    #TODO:view
   end
 end

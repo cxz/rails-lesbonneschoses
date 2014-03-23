@@ -1,1 +1,67 @@
-<%= @product.as_html_safe(link_resolver(maybe_ref)) %>
+<div id="product" class="main">
+  <section id="detail">
+    <div>
+        <img src="<%= @product['product.image'].get_view('main').url %>">
+
+        <h4>
+          <strong><%= @product['product.name'].as_text %></strong>
+          <em><%= number_to_currency(@product['product.price'].value) %></em>
+        </h4>
+
+        <h2>
+          <%= @product['product.short_lede'].as_text %>
+        </h2>
+
+        <%= @product['product.description'].as_html_safe(link_resolver(maybe_ref)) %>
+
+          <p>
+            <a href="#">
+              <%= @product['product.flavour'].fragments.first.as_text %>
+              <strong class="color"> <%= @product['product.color'].value %> </strong>
+            </a>
+          </p>
+    </div>
+
+    <p>
+      <%= link_to "Browser All our products", products_path(ref: maybe_ref) %>
+    </p>
+
+  </section>
+
+  <% if @product['product.gallery'] %>
+
+    <section id="gallery" style="background-image: url(<%= @product['product.gallery'][0].get_view('main').url %>)"></section>
+
+  <% else %>
+    <section id="quote">
+      <blockquote>
+        <%= @product['product.testimonial_quote'].as_text %>
+        <strong>said <%= @product['product.testimonial_author'].as_text %></strong>
+      </blockquote>
+    </section>
+  <% end %>
+
+  <% if @related_products.length > 0 %>
+
+      <section id="related" class="products">
+
+        <h2>You might like these as well</h2>
+
+        <ul>
+          <% @related_products.each do |p| %>
+
+              <li data-category="<%= p.tags.first %>">
+                <%= link_to show_product_path(p.id, slug: p.slug, ref: maybe_ref) do %>
+                  <img src="<%= p['product.image'].get_view('icon').url %>">
+                  <span><%= p['product.name'].as_text %></span>
+                  <em><%= number_to_currency(p['product.price'].value) %></em>
+                <% end %>
+              </li>
+
+          <% end %>
+        </ul>
+
+      </section>
+
+   <% end %>
+</div>

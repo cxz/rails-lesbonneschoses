@@ -5,8 +5,10 @@ class PostsController < ApplicationController
 
   def index
     category = params[:category]
-    @posts = api.form('blog').submit(ref)
-    #.query(category.blank?? '': '[[:d = at(my.blog-post.category, #{category})]]')
+    @posts = api.form('blog')
+      .query(category.blank?? '': "[[:d = at(my.blog-post.category, \"#{category}\")]]")
+      .submit(ref)
+
   end
 
   def show

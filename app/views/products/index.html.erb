@@ -1,0 +1,17 @@
+<div id="products" class="main">
+  <section id="catalog" style="height: 1170px">
+    <div class="products">
+      <ul>
+        <% @products.results.sort_by{|p| p['product.name'].as_text }.each do |p| %>
+            <li data-category="<%= p.tags.select{|t| @categories.include? t }.first %>">
+              <%= link_to show_product_path(p.id, slug: p.slug, ref: maybe_ref) do %>
+                <img src="<%= p['product.image'].get_view('icon').url %>">
+                <span><%= p['product.name'].as_text %></span>
+                <em><%= number_to_currency(p['product.price'].value) %></em>
+              <% end %>
+            </li>
+        <% end %>
+      </ul>
+    </div>
+  </section>
+</div>

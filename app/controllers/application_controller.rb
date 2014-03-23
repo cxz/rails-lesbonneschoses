@@ -79,4 +79,12 @@ class ApplicationController < ActionController::Base
     @access_token = session['ACCESS_TOKEN'] = nil
   end
 
+  def categories
+    {
+        :"Macaron" => "Macarons",
+        :"Cupcake" => "Cup Cakes",
+        :"Pie" => "Little Pies"
+    }
+  end
+
 end
