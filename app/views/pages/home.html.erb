@@ -14,7 +14,7 @@
             <ul>
             <% @products.results.select{|p| !p.tags.include? category.to_s }.take(5).each do |product| %>
                 <li data-category="<%= category %>">
-                  <%= link_to show_product_path(product, slug: product.slug) do %>
+                  <%= link_to show_product_path(product.id, slug: product.slug, ref: maybe_ref) do %>
                     <img src="<%= product['product.image'].get_view('icon').url %>">
                     <span><%= product['product.name'].as_text %></span>
                     <em><span class="price"><%= number_to_currency(product['product.price'].value) %></span></em>
