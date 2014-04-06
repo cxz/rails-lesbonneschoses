@@ -1,3 +1,10 @@
+##Les Bonnes Choses
+
+This is a rails port of lesbonneschoses. [Les Bonnes Choses](http://lesbonneschoses.prismic.me) is an example project demonstrating [prismic.io](https://prismic.io)
+
+The rest of this README is the README from the provided [Rails starter project](https://github.com/prismicio/ruby-rails-starter).
+
+
 ## Ruby on Rails starter project for prismic.io
 
 This is a blank Rails project that will connect to any [prismic.io](https://prismic.io)
